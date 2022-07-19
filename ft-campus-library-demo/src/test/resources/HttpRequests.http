@@ -3,7 +3,7 @@ GET http://localhost:8080/api/campuses
 Accept: application/json
 
 ### Get a campus with the given id.
-GET http://localhost:8080/api/campuses/1
+GET http://localhost:8080/api/campuses/2
 Content-Type: application/json
 
 

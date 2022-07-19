@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import net.bytebuddy.build.Plugin;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
@@ -28,10 +29,15 @@ public class Book {
         this.title = title;
         this.summary = summary;
         this.available = available;
-        this.authors = Set.of(authors);
+        this.authors = Arrays.asList(authors);
     }
 
     public Book() {
+    }
+
+    public void ChangeCampus(Campus newCampus)
+    {
+        campus = newCampus;
     }
 
     public Long getId() {
