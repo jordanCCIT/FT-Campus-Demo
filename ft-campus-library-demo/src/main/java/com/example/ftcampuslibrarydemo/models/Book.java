@@ -1,5 +1,6 @@
 package com.example.ftcampuslibrarydemo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import net.bytebuddy.build.Plugin;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ public class Book {
     @GeneratedValue
     private Long id;
     @ManyToOne
+    @JsonIgnore
     private Campus campus;
     private String title;
     @Lob

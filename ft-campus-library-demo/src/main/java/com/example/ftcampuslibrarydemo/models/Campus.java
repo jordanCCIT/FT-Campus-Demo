@@ -41,6 +41,10 @@ public class Campus {
         return books;
     }
 
+    public void changeLocation(String newLocation){
+        location = newLocation;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
