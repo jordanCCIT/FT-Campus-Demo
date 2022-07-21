@@ -64,6 +64,10 @@ public class Book {
         return authors;
     }
 
+    public void setCampus(Campus campus){
+        this.campus=campus;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

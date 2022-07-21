@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 
 @RestController
 public class CampusController {
@@ -29,26 +30,20 @@ public class CampusController {
         return campusRepo.findById(id).get();
     }
 
+    @PostMapping("/api/campuses/{id}/addBook")
+    public Campus addBookToCampus(@PathVariable Long id,@RequestBody Book book){
+        Campus campus = campusRepo.findById(id).get();
+        book.setCampus(campus);
+        bookRepo.save(book);
+        return campus;
+    }
+
     @PostMapping("/api/campuses")
     public Iterable<Campus> addCampus(@RequestBody Campus campusToAdd){
         campusRepo.save(campusToAdd);
         return campusRepo.findAll();
     }
-
-//    @PutMapping("/api/campuses")
-//    public Iterable<Campus> editCampus(@RequestBody Campus campusToEdit){
-//        if(campusToEdit.getId()!=null){
-//            Campus campusToChange = campusRepo.findById(campusToEdit.getId()).get();
-//            ArrayList<Book> books = (ArrayList)campusToChange.getBooks();
-//            campusRepo.save(campusToEdit);
-//            for (int i = 0; i < books.size();i++){
-//                books.get(i).ChangeCampus(campusToEdit);
-//                bookRepo.save( books.get(i));
-//            }
-//        }
-//        return campusRepo.findAll();
-//    }
-
+    
     @PatchMapping("/api/campuses/{id}/location")
     public Campus campusToChangeLocation(@RequestBody String newLocation,@PathVariable Long id){
         Campus campusToChange = campusRepo.findById(id).get();
