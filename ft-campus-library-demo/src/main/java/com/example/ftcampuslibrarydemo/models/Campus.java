@@ -1,5 +1,6 @@
 package com.example.ftcampuslibrarydemo.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -14,7 +15,7 @@ public class Campus {
     private Long id;
     private String location;
     private String techStack;
-    @OneToMany(mappedBy = "campus")
+    @OneToMany(mappedBy = "campus", cascade = CascadeType.ALL,orphanRemoval = true)
     private Collection<Book> books;
 
     public Campus(String location, String techStack) {
@@ -43,6 +44,10 @@ public class Campus {
 
     public void changeLocation(String newLocation){
         location = newLocation;
+    }
+
+    public void changeTechStack(String newTechStack){
+        techStack = newTechStack;
     }
 
     @Override

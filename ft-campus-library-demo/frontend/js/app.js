@@ -4,33 +4,85 @@ import footer from "./footer.js";
 import campusView from "./campusView.js"
 const container = document.querySelector(".container");
 
-function makeHomeView(){
+// function makeHomeView(){
+//     fetch("http://localhost:8080/api/campuses")
+//     .then(res => res.json())
+//     .then(campuses => {
+//         console.log(campuses);
+        
+//         container.innerHTML = header();
+//         container.innerHTML += home(campuses);
+//         container.innerHTML += footer();
+
+
+//         const campusesElement = document.querySelectorAll(".campus");
+
+//         campusesElement.forEach(campus =>{
+//             campus.addEventListener("click",()=>{
+//                 let campusId = campus.querySelector(".id_field");
+//                 // alert(`You clicked campus id: ${campusId.value}`);
+//                 makeCampusView(campusId.value);
+//             })
+//         })
+//     })
+// }
+
+
+function makeHomeView() {
     fetch("http://localhost:8080/api/campuses")
     .then(res => res.json())
     .then(campuses => {
-        console.log(campuses);
-        
-        container.innerHTML = header();
-        container.innerHTML += home(campuses);
-        container.innerHTML += footer();
-
-
-        const campusesElement = document.querySelectorAll(".campus");
-
-        campusesElement.forEach(campus =>{
-            campus.addEventListener("click",()=>{
-                let campusId = campus.querySelector(".id_field");
-                // alert(`You clicked campus id: ${campusId.value}`);
-                makeCampusView(campusId.value);
-            })
-        })
+        makeHomeViewFromJSON(campuses);
     })
 }
 
-function makeCampusView(campusId) {
-    fetch(`http://localhost:8080/api/campuses/${campusId}`)
-    .then(res => res.json())
-    .then(campus => {
+function makeHomeViewFromJSON(campuses){
+    console.log(campuses);
+    container.innerHTML = header();
+    container.innerHTML += home(campuses);
+    container.innerHTML += footer();
+
+    const campusEl = container.querySelectorAll(".campus");
+
+    campusEl.forEach(campus => {
+        let campusElId = campus.querySelector(".id-field");
+        const campusH2 = campus.querySelector(".campus-location");
+        campusH2.addEventListener("click",()=>{
+            campuses.forEach(campusJson => {
+                makeCampusView(campusJson)
+            })
+        })
+
+        const deleteButton = campus.querySelector(".delete-button");
+        deleteButton.addEventListener("click",()=>{
+            fetch(`http://localhost:8080/api/campuses/${campusElId.value}`,{
+                method: 'DELETE'
+            })
+            .then(res => res.json())
+            .then(newCampuses => {
+                makeHomeViewFromJSON(newCampuses);
+            })
+        })
+
+        const updateButton = campus.querySelector(".update-button");
+        updateButton.addEventListener("click",() =>{
+            const updateInput = campus.querySelector(".update-tech-stack");
+            fetch(`http://localhost:8080/api/campuses/${campusElId.value}`,{
+                method: 'PATCH',
+                body: updateInput.value
+            })
+            .then(res => res.json())
+            .then(newCampuses =>{
+                makeHomeViewFromJSON(newCampuses);
+            })
+            
+        })
+    });
+
+}
+
+
+function makeCampusView(campus) {
         console.log(campus);
         container.innerHTML = header();
         container.innerHTML += campusView(campus);
@@ -59,7 +111,7 @@ function makeCampusView(campusId) {
                 "title": bookNameIn.value,
                 "summary": bookSumIn.value,
             }
-            fetch(`http://localhost:8080/api/campuses/${campusId}/addBook`,{
+            fetch(`http://localhost:8080/api/campuses/${campus.id}/addBook`,{
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -68,11 +120,9 @@ function makeCampusView(campusId) {
             })
             .then(res => res.json())
             .then(campus => {
-                makeCampusView(campus.id);
+                makeCampusView(campus);
             })
         })
-
-    })
 }
 
 makeHomeView();

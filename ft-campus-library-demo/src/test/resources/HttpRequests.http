@@ -6,11 +6,6 @@ Accept: application/json
 GET http://localhost:8080/api/campuses/2
 Content-Type: application/json
 
-
-### Delete a campus with the given id.
-DELETE http://localhost:8080/api/campuses/1
-Content-Type: application/json
-
 ### Post a new campus resource.
 POST http://localhost:8080/api/campuses
 Content-Type: application/json
@@ -33,3 +28,12 @@ PATCH http://localhost:8080/api/campuses/1/books
 Content-Type: application/json
 
 {"title": "New Book","summary": "This is a sample book.","available": true,"authors": [{"name": "Sample Author"}, {"name": "Another Sample Author"}]}
+
+### Changes campus techstack
+PATCH http://localhost:8080/api/campuses/1
+
+Cobol
+
+### Delete a campus with the given id.
+DELETE http://localhost:8080/api/campuses/1
+Content-Type: application/json

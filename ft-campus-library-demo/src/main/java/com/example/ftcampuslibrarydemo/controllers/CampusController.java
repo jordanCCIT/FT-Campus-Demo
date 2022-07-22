@@ -51,4 +51,18 @@ public class CampusController {
         campusRepo.save(campusToChange);
         return campusToChange;
     }
+
+    @DeleteMapping("/api/campuses/{id}")
+    public Iterable<Campus> deleteCampusById(@PathVariable Long id){
+        campusRepo.deleteById(id);
+        return campusRepo.findAll();
+    }
+
+    @PatchMapping("/api/campuses/{id}")
+    public Iterable<Campus> changeTechStack(@PathVariable Long id, @RequestBody String techStack){
+        Campus campus = campusRepo.findById(id).get();
+        campus.changeTechStack(techStack);
+        campusRepo.save(campus);
+        return campusRepo.findAll();
+    }   
 }
